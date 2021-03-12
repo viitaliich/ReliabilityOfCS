@@ -119,15 +119,29 @@ for i in range(1, len(P_list)):
 print("T_gamma =", T_gamma)
 
 # TASK 3: Probability of troble-free device operation at specific time
-i = 0
+# i = 0
+# accum = 0
+# while int_matrix[i][len(int_matrix[i]) - 1] < PROB_TIME:
+#     accum = accum + (f_list[i] * h)
+#     i = i + 1
+# else:
+#     accum = accum + f_list[i] * (PROB_TIME - int_matrix[i - 1][len(int_matrix[i - 1]) - 1])
+# P = 1 - accum
+# print("P =", round(P, 6))
+
+interval = -1
+for i in range(len(int_bounds)):
+    if int_bounds[i][0] <= PROB_TIME <= int_bounds[i][1]:
+        interval = i
+        break
+
 accum = 0
-while int_matrix[i][len(int_matrix[i]) - 1] < PROB_TIME:
-    accum = accum + (f_list[i] * h)
-    i = i + 1
-else:
-    accum = accum + f_list[i] * (PROB_TIME - int_matrix[i - 1][len(int_matrix[i - 1]) - 1])
-P = 1 - accum
+for i in range(interval):
+    accum = accum + f_list[i] * h
+accum = accum + f_list[interval] * (PROB_TIME - int_bounds[interval][0])
+P = 1-accum
 print("P =", round(P, 6))
+
 
 # TASK 4
 I = f_list[i] / P
