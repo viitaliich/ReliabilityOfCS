@@ -10,7 +10,8 @@ DEFAULT_ARRAY = [1325, 977, 243, 3, 145, 997, 27, 67, 30, 934,
                  252, 569, 8, 491, 724, 331, 1243, 567, 788,
                  729, 62, 636, 227, 227, 245, 153, 151, 217,
                  1009, 143, 301, 342, 48, 493, 117, 78, 113,
-                 67]
+                 67
+                 ]
 GAMMA = 0.74
 PROB_TIME = 1586
 INTENSITY_TIME = 1798
@@ -77,21 +78,32 @@ for i in range(0, INT_NUM):
     int_matrix.append(row)
     int_end = int_end + h
 
-int_bounds = list()  # TO DO
+# intervals bounds
+left = 0
+right = h
+int_bounds = list()
+for i in range(INT_NUM):
+    int_bounds.append((left, right))
+    left = round(right, 3)
+    right = round(left + h, 3)
+
+print("Границы интервалов - ", int_bounds)
 
 # statistical density of the probability distribution
 f_list = list()
 for i in range(INT_NUM):
     f_list.append(round(len(int_matrix[i]) / len(array) / h, 6))
 
+print("Плотность распределения на интервалах - ", f_list)
+
 # probability of trouble-free device operation
 P_list = list()
 S = 0
-for i in range(len(f_list)):
-    S = min(S + f_list[i] * h, 1)  # max(P) = 1
+for i in range(len(int_bounds)):
+    S = min(S + f_list[i] * h, 1)
     P_list.append(round(1 - S, 6))
 
-print("P list =", P_list)
+print("Вероятность безотказной раьоты на границах интервалов\n\t-->", P_list)
 
 # TASK 2: Gamma-percentage
 for i in range(1, len(P_list)):
